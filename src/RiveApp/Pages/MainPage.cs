@@ -45,7 +45,11 @@ class MainPage : Component<MainPageState>
                 new NavBar()
                     .Shown(!State.IsSideMenuShown && !State.ShowOnboarding)
             }
+            
         }
+//#if IOS
+//        .Set(MauiControls.PlatformConfiguration.iOSSpecific.Page.UseSafeAreaProperty, true)
+//#endif
         .Set(MauiControls.NavigationPage.HasNavigationBarProperty, false)
         .BackgroundColor(Theme.Background2)
         ;

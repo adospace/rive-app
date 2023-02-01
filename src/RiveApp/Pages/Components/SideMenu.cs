@@ -4,6 +4,7 @@ using System;
 using MauiReactor;
 using MauiReactor.Shapes;
 using MauiReactor.Animations;
+using MauiReactor.Canvas;
 
 namespace RiveApp.Pages.Components;
 
@@ -164,7 +165,7 @@ class SideMenu : Component<SideMenuState>
 
 class SideMenuItemState
 {
-    public double ScaleX { get; set; } = 0.5;
+    public float ScaleX { get; set; } = 0.5f;
     public bool IsSelected { get; set; }
 }
 
@@ -201,14 +202,14 @@ class SideMenuItem : Component<SideMenuItemState>
 
     protected override void OnMounted()
     {
-        State.ScaleX = _selected ? 1.0 : 0.0;
+        State.ScaleX = _selected ? 1.0f : 0.0f;
         State.IsSelected = _selected;
         base.OnMounted();
     }
 
     protected override void OnPropsChanged()
     {
-        State.ScaleX = _selected ? 1.0 : 0.0;
+        State.ScaleX = _selected ? 1.0f : 0.0f;
         State.IsSelected = _selected;
         base.OnPropsChanged();
     }
@@ -225,20 +226,24 @@ class SideMenuItem : Component<SideMenuItemState>
                 .BackgroundColor(Theme.Background.WithAlpha(0.1f))
                 ,
 
-            new Border
+            new CanvasView
             {
-                new Border()
-                    .StrokeShape(new RoundRectangle().CornerRadius(12))
-                    .StrokeThickness(0)
-                    .BackgroundColor(Color.FromUint(0xFF6792FF).WithLuminosity(0.6f))
-                    ,
+                new Align
+                {
+                    new Box()
+                        .CornerRadius(12)
+                        .BackgroundColor(Color.FromUint(0xFF6792FF).WithLuminosity(0.6f))
+                }
+                .HorizontalAlignment(Microsoft.Maui.Primitives.LayoutAlignment.Start)
+                .Width(State.ScaleX * 225.0f)
+                .WithAnimation(duration: 200)
             }
             .BackgroundColor(Colors.Transparent)
             .GridColumnSpan(2)
             .HStart()
             .Margin(-8,-2)
-            .WidthRequest(State.ScaleX * 225.0)
-            .WithAnimation(duration: 200)
+            .WidthRequest(225.0)
+            .OnTapped(_selectAction)
             ,
 
             new AnimatedIcon()

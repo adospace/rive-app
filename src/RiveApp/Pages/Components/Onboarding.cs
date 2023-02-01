@@ -57,7 +57,9 @@ class Onboarding : Component<OnboardingState>
             new Login()
                 .Show(State.ShowLogin)
                 .OnClose(()=>SetState(s => s.ShowLogin = false)),
-        };
+        }
+        .TranslationY(State.TranslationY)
+        .WithAnimation(easing: ExtendedEasing.OutQuart, duration: 600);
     }
 
     VisualNode RenderBody()
@@ -67,7 +69,7 @@ class Onboarding : Component<OnboardingState>
             new Grid("100, Auto, *, 100, 76", "*")
             {
                 new Image("onboarding_background.png")
-                    .Aspect(Aspect.AspectFit)
+                    .Aspect(Aspect.Fill)
                     .GridRowSpan(5),
 
                 RenderCloseButton(),
@@ -98,8 +100,6 @@ class Onboarding : Component<OnboardingState>
 
             }
         }
-        .TranslationY(State.ShowLogin ? -150 : State.TranslationY)
-        .WithAnimation(easing: ExtendedEasing.OutQuart, duration: 600)
         .StrokeShape(new RoundRectangle().CornerRadius(0, 0, 30, 30))
         .Margin(7, 0, 7, 10)
         .Background(Colors.White);
@@ -220,7 +220,6 @@ class StartCourseButton : Component<StartCourseButtonState>
             }
             .IsEnabled(State.IsPressed)
             .OnIsEnabledChanged(isEnabled => SetState(s => s.IsPressed = isEnabled))
-
         }
         .Scale(()=> State.MainScale)
         .OnTapped(()=>

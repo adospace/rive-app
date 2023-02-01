@@ -5,6 +5,7 @@ using MauiReactor;
 using MauiReactor.Shapes;
 using System.Linq;
 using MauiReactor.Animations;
+using Microsoft.Maui.Devices;
 
 namespace RiveApp.Pages.Components;
 
@@ -48,23 +49,32 @@ class Home : Component<HomeMenuState>
 
     protected override void OnMounted()
     {
-        State.TranslationX = _isShown ? 0 : 220;
-        State.RotationY = _isShown ? 0.0 : -12;
-        State.MarginLeft = _isShown ? -30 : 0;
-        State.MainScale = _isMovedBack ? 0.95 : 1.0;
-        State.MainOpacity = _isMovedBack ? 0.1 : 1.0;
+        InitializeState();
         base.OnMounted();
     }
 
     protected override void OnPropsChanged()
     {
-        State.TranslationX = _isShown ? 0 : 220;
-        State.RotationY = _isShown ? 0.0 : -12;
-        State.MarginLeft = _isShown ? -30 : 0;
-        State.MainScale = _isMovedBack ? 0.95 : 1.0;
-        State.MainOpacity = _isMovedBack ? 0.1 : 1.0;
+        InitializeState();
 
         base.OnPropsChanged();
+    }
+
+    void InitializeState()
+    {
+        if (DeviceInfo.Current.Platform == DevicePlatform.Android)
+        {
+            State.TranslationX = _isShown ? 0 : 220;
+            State.MarginLeft = _isShown ? -30 : 0;
+        }
+        else
+        {
+            State.TranslationX = _isShown ? 0 : 300;
+        }
+
+        State.RotationY = _isShown ? 0.0 : -12;
+        State.MainScale = _isMovedBack ? 0.95 : 1.0;
+        State.MainOpacity = _isMovedBack ? 0.1 : 1.0;
     }
 
     public override VisualNode Render()
@@ -111,8 +121,10 @@ class Home : Component<HomeMenuState>
                 .Orientation(ScrollOrientation.Vertical)
                 .GridRow(3),
             }
+            .OniOS(_=>_.Margin(0, 50, 0, 0))
         }
         .Margin(State.MarginLeft, 0, 0, 0)
+        .OniOS(_=>_.Margin(State.MarginLeft, -50, 0, -50))
         .RotationY(State.RotationY)
         .TranslationX(State.TranslationX)
         .Padding(-State.MarginLeft + 24, 0, 0, 0)
@@ -120,7 +132,6 @@ class Home : Component<HomeMenuState>
 
         .AnchorX(0.5)
         .AnchorY(0.0)
-        //.Scale(State.MainScale)
         .Opacity(State.MainOpacity)
         .WithAnimation(easing: ExtendedEasing.InOutBack, duration: 300)
 

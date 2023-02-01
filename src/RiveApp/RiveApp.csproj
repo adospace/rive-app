@@ -21,6 +21,9 @@
     <TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
     <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-ios|AnyCPU'">
+    <CreatePackage>false</CreatePackage>
+  </PropertyGroup>
   <ItemGroup>
     <!-- App Icon -->
     <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
@@ -32,18 +35,15 @@
     <MauiImage Include="Resources\Images\backgrounds\*" />
     <MauiImage Include="Resources\Images\topics\*" />
 
-    <MauiImage Update="Resources\Images\dotnet_bot.svg" BaseSize="168,208" />
-    <!-- Custom Fonts -->
     <MauiFont Include="Resources\Fonts\*" />
     <!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
     <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Reactor.Maui" Version="1.0.100-beta" />
-    <PackageReference Include="Reactor.Maui.Canvas" Version="1.0.100-beta" />
-    <PackageReference Include="Reactor.Maui.ScaffoldGenerator" Version="1.0.100-beta" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+    <PackageReference Include="Reactor.Maui" Version="1.0.102-beta" />
+    <PackageReference Include="Reactor.Maui.Canvas" Version="1.0.102-beta" />
+    <PackageReference Include="Reactor.Maui.ScaffoldGenerator" Version="1.0.102-beta" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
     <PackageReference Include="SkiaSharp.Extended.UI.Maui" Version="2.0.0-preview.61" />
   </ItemGroup>
-
 </Project>

@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33209.295
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RiveApp", "RiveApp\RiveApp.csproj", "{396AAA3B-E1B1-4420-904A-BBC0C96E9428}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RiveApp", "RiveApp\RiveApp.csproj", "{396AAA3B-E1B1-4420-904A-BBC0C96E9428}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
