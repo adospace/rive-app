@@ -39,13 +39,13 @@ class Onboarding : Component<OnboardingState>
 
     protected override void OnMounted()
     {
-        State.TranslationY = _show ? 0 : -798;
+        State.TranslationY = _show ? -50 : -800;
         base.OnMounted();
     }
 
     protected override void OnPropsChanged()
     {
-        State.TranslationY = _show ? 0 : -798;
+        State.TranslationY = _show ? -50 : -800;
         base.OnPropsChanged();
     }
 
@@ -163,19 +163,19 @@ class StartCourseButton : Component<StartCourseButtonState>
                     .Height(63)
                     .Width(69),
 
-                    new Align()
-                    {
-                        new DropShadow
-                        {
-                            new Box()
-                                .CornerRadius(25)
-                                .BorderColor(Colors.White)
-                                .BackgroundColor(Colors.Transparent)
-                        }
-                        .Color(Theme.ShadowDark)
-                        .Size(15, 15)
-                    }
-                    .Margin(8,10,2,2),
+                    //new Align()
+                    //{
+                    //    new DropShadow
+                    //    {
+                    //        new Box()
+                    //            .CornerRadius(25)
+                    //            .BorderColor(Colors.White)
+                    //            .BackgroundColor(Colors.Transparent)
+                    //    }
+                    //    .Color(Theme.ShadowDark)
+                    //    .Size(15, 15)
+                    //}
+                    //.Margin(8,10,2,2),
 
                     new Picture("RiveApp.Resources.Images.start_course_button.png")
                         .Margin(8,8,0,0),
