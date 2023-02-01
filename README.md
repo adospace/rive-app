@@ -7,3 +7,8 @@ This sample app showcases many MauiReactor features like RxAnimation and Animati
 The original app uses Rive animations (take a look [here](https://rive.app/) for more info) but I had to replace them with custom ones directly build in MauiReactor or using Lottie. Rive app is not yet available for .NET MAUI.
 
 I strongly encourage you to take a look at [MauiReactor](https://github.com/adospace/reactorui-maui) repository before looking at the source code of this app.
+
+
+
+https://user-images.githubusercontent.com/10573253/216192559-82adacaa-c2d1-4070-9073-53f2a1d7f784.mp4
+
