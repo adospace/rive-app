@@ -81,46 +81,46 @@ class Home : Component<HomeMenuState>
     {
         return new Border
         {
-            new Grid("161, 309, 59, *", "*")
+            new ScrollView
             {
-                RenderUserButton(),
-
-                new Label("Courses")
-                    .FontAttributes(MauiControls.FontAttributes.Bold)
-                    .FontSize(24)
-                    .FontFamily("PoppinsBold")
-                    .TextColor(Colors.Black)
-                    .VEnd(),
-
-                new ScrollView
+                new Grid("161, 309, 59, *", "*")
                 {
-                    new HStack(spacing: 20)
+                    RenderUserButton(),
+
+                    new Label("Courses")
+                        .FontAttributes(MauiControls.FontAttributes.Bold)
+                        .FontSize(24)
+                        .FontFamily("PoppinsBold")
+                        .TextColor(Colors.Black)
+                        .VEnd(),
+
+                    new ScrollView
                     {
-                        CourseModel.Courses.Select(RenderCourse)
+                        new HStack(spacing: 20)
+                        {
+                            CourseModel.Courses.Select(RenderCourse)
+                        }
                     }
-                }
-                .Orientation(ScrollOrientation.Horizontal)
-                .GridRow(1),
+                    .Orientation(ScrollOrientation.Horizontal)
+                    .GridRow(1),
 
-                new Label("Recent")
-                    .FontAttributes(MauiControls.FontAttributes.Bold)
-                    .FontSize(20)
-                    .FontFamily("PoppinsBold")
-                    .TextColor(Colors.Black)
-                    .GridRow(2)
-                    .VEnd(),
+                    new Label("Recent")
+                        .FontAttributes(MauiControls.FontAttributes.Bold)
+                        .FontSize(20)
+                        .FontFamily("PoppinsBold")
+                        .TextColor(Colors.Black)
+                        .GridRow(2)
+                        .VEnd(),
 
-                new ScrollView
-                {
                     new VStack(spacing: 20)
                     {
                         CourseModel.CourseSections.Select(RenderCourseSection)
                     }
+                    .Margin(0,10,15,0)
+                    .GridRow(3),
                 }
-                .Margin(0,10,15,0)
-                .Orientation(ScrollOrientation.Vertical)
-                .GridRow(3),
             }
+            .Orientation(ScrollOrientation.Vertical)
             .OniOS(_=>_.Margin(0, 50, 0, 0))
         }
         .Margin(State.MarginLeft, 0, 0, 0)

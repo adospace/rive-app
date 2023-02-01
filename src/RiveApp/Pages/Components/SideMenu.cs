@@ -110,12 +110,12 @@ class SideMenu : Component<SideMenuState>
 
             new VStack(spacing: 0)
             {
-                RenderMenuItem("Home", "home.png", CommandMenuItem.Home),
-                RenderMenuItem("Search", "search.png", CommandMenuItem.Search),
-                RenderMenuItem("Favorites", "favorites.png", CommandMenuItem.Favorites),
-                RenderMenuItem("Help", "help.png", CommandMenuItem.Help),
+                RenderMenuItem("Home", "home_img.png", CommandMenuItem.Home, true),
+                RenderMenuItem("Search", "search_img.png", CommandMenuItem.Search),
+                RenderMenuItem("Favorites", "favorites_img.png", CommandMenuItem.Favorites),
+                RenderMenuItem("Help", "help_img.png", CommandMenuItem.Help),
             }
-            .Margin(0,8,0,0)
+            .Margin(20,8,0,0)
             .GridRow(1)
         }
         .Margin(30, 37)
@@ -134,10 +134,10 @@ class SideMenu : Component<SideMenuState>
 
             new VStack(spacing: 0)
             {
-                RenderMenuItem("History", "billing.png", CommandMenuItem.History),
-                RenderMenuItem("Notification", "video.png", CommandMenuItem.Notification),
+                RenderMenuItem("History", "billing_img.png", CommandMenuItem.History, true),
+                RenderMenuItem("Notification", "videos_img.png", CommandMenuItem.Notification),
             }
-            .Margin(0,8,0,0)
+            .Margin(20,8,0,0)
             .GridRow(1)
         }
         .Margin(30, 50)
@@ -153,11 +153,12 @@ class SideMenu : Component<SideMenuState>
         .GridRow(3);
     }
 
-    VisualNode RenderMenuItem(string title, string icon, CommandMenuItem command)
+    VisualNode RenderMenuItem(string title, string icon, CommandMenuItem command, bool firstItem = false)
     {
         return new SideMenuItem()
             .Label(title)
             .Icon(icon)
+            .FirstItem(firstItem)
             .IsSelected(State.SelectedMenuItem == command)
             .OnSelect(() => SetState(s => s.SelectedMenuItem = command));
     }
@@ -175,6 +176,7 @@ class SideMenuItem : Component<SideMenuItemState>
     private string _icon;
     private bool _selected;
     private Action _selectAction;
+    private bool _firstItem;
 
     public SideMenuItem Label(string label)
     {
@@ -200,6 +202,12 @@ class SideMenuItem : Component<SideMenuItemState>
         return this;
     }
 
+    public SideMenuItem FirstItem(bool firstItem)
+    {
+        _firstItem = firstItem;
+        return this;
+    }
+
     protected override void OnMounted()
     {
         State.ScaleX = _selected ? 1.0f : 0.0f;
@@ -216,55 +224,109 @@ class SideMenuItem : Component<SideMenuItemState>
 
     public override VisualNode Render()
     {
-        return new Grid("52", "24, *")
+        return new CanvasView
         {
-            new Rectangle()
-                .HeightRequest(1)
-                .HFill()
-                .VStart()
-                .GridColumnSpan(2)
-                .BackgroundColor(Theme.Background.WithAlpha(0.1f))
-                ,
-
-            new CanvasView
+            new Group
             {
-                new Align
+                !_firstItem ?
+                new Align()
                 {
                     new Box()
-                        .CornerRadius(12)
-                        .BackgroundColor(Color.FromUint(0xFF6792FF).WithLuminosity(0.6f))
+                        .BackgroundColor(Theme.Background.WithAlpha(0.1f))
                 }
-                .HorizontalAlignment(Microsoft.Maui.Primitives.LayoutAlignment.Start)
-                .Width(State.ScaleX * 225.0f)
-                .WithAnimation(duration: 200)
+                .Margin(5,0)
+                .Height(1)
+                .VStart() : null,
+
+                new Align
+                {
+                    new Align
+                    {
+                        new Box()
+                            .CornerRadius(12)
+                            .BackgroundColor(Color.FromUint(0xFF6792FF).WithLuminosity(0.6f))
+                    }
+                    .HorizontalAlignment(Microsoft.Maui.Primitives.LayoutAlignment.Start)
+                    .Width(State.ScaleX * 225.0f)
+                    .WithAnimation(duration: 200)
+                }
+                .HStart()
+                
+                .Width(225.0f),
+
+                new Row("24,*")
+                {
+                    new AnimatedIcon()
+                        .Icon(_icon)
+                        .IsSelected(_selected)
+                    ,
+
+                    new Text(_label)
+                        .FontSize(17)
+                        .FontColor(Colors.LightGray)
+                        .VerticalAlignment (VerticalAlignment.Center)
+                        .Margin(8,0)
+
+                }
+                .Margin(8,0,8,0)
             }
-            .BackgroundColor(Colors.Transparent)
-            .GridColumnSpan(2)
-            .HStart()
-            .Margin(-8,-2)
-            .WidthRequest(225.0)
-            .OnTapped(_selectAction)
-            ,
-
-            new AnimatedIcon()
-                .Icon(_icon)
-                .IsSelected(State.IsSelected)
-                ,
-
-            new Label(_label)
-                .FontSize(17)
-                .TextColor(Colors.LightGray)
-                .VCenter()
-                .Margin(8,0)
-                .GridColumn(1),
         }
-        .OnTapped(_selectAction);
+        .Margin(-8, -2)
+        .BackgroundColor(Colors.Transparent)
+        .OnTapped(_selectAction)
+        .WidthRequest(225.0)
+        .HeightRequest(52);
+        ;
+            
+        //    new Grid("52", "24, *")
+        //{
+        //    new Rectangle()
+        //        .HeightRequest(1)
+        //        .HFill()
+        //        .VStart()
+        //        .GridColumnSpan(2)
+        //        .BackgroundColor(Theme.Background.WithAlpha(0.1f))
+        //        ,
+
+        //    new CanvasView
+        //    {
+        //        new Align
+        //        {
+        //            new Box()
+        //                .CornerRadius(12)
+        //                .BackgroundColor(Color.FromUint(0xFF6792FF).WithLuminosity(0.6f))
+        //        }
+        //        .HorizontalAlignment(Microsoft.Maui.Primitives.LayoutAlignment.Start)
+        //        .Width(State.ScaleX * 225.0f)
+        //        .WithAnimation(duration: 200)
+        //    }
+        //    .BackgroundColor(Colors.Transparent)
+        //    .GridColumnSpan(2)
+        //    .HStart()
+        //    .Margin(-8,-2)
+        //    .WidthRequest(225.0)
+        //    .OnTapped(_selectAction)
+        //    ,
+
+        //    //new AnimatedIcon()
+        //    //    .Icon(_icon)
+        //    //    .IsSelected(State.IsSelected)
+        //    //    ,
+
+        //    new Label(_label)
+        //        .FontSize(17)
+        //        .TextColor(Colors.LightGray)
+        //        .VCenter()
+        //        .Margin(8,0)
+        //        .GridColumn(1),
+        //}
+        //.OnTapped(_selectAction);
     }
 }
 
 class AnimatedIconState
 {
-    public Point TranslatePoint { get; set; }
+    public PointF TranslatePoint { get; set; }
     public bool IsAnimating { get; set; }
     public bool IsSelected { get; set; }
 }
@@ -312,9 +374,11 @@ class AnimatedIcon : Component<AnimatedIconState>
 
     public override VisualNode Render()
     {
-        return new Grid("24", "24")
+        return new Align
         {
-            new Image(_icon),
+            //new Image(_icon),
+            new Picture($"RiveApp.Resources.Images.{_icon}")
+                .Aspect(Aspect.Fill),
 
             new AnimationController
             {
@@ -341,10 +405,46 @@ class AnimatedIcon : Component<AnimatedIconState>
             .IsEnabled(State.IsAnimating)
             .OnIsEnabledChanged(animating => State.IsAnimating = animating)
         }
+        .Height(24)
+        .Width(24)
         .TranslationX(() => State.TranslatePoint.X)
-        .TranslationY(() => -State.TranslatePoint.Y)
+        .TranslationY(() => State.TranslatePoint.Y)
         .HCenter()
         .VCenter()
+
+        //return new Grid("24", "24")
+        //{
+        //    new Image(_icon),
+
+        //    new AnimationController
+        //    {
+        //        new SequenceAnimation
+        //        {
+        //            new CubicBezierPathAnimation()
+        //                .StartPoint(0,0)
+        //                .EndPoint(0,5)
+        //                .ControlPoint1(5,0)
+        //                .ControlPoint2(5,5)
+        //                .OnTick(v => SetState(s => s.TranslatePoint = v))
+        //                .Duration(200),
+
+        //            new CubicBezierPathAnimation()
+        //                .StartPoint(0,5)
+        //                .EndPoint(0,0)
+        //                .ControlPoint1(-5,5)
+        //                .ControlPoint2(-5,0)
+        //                .OnTick(v => SetState(s => s.TranslatePoint = v))
+        //                .Duration(200),
+        //        }
+        //        .IterationCount(1)
+        //    }
+        //    .IsEnabled(State.IsAnimating)
+        //    .OnIsEnabledChanged(animating => State.IsAnimating = animating)
+        //}
+        //.TranslationX(() => State.TranslatePoint.X)
+        //.TranslationY(() => -State.TranslatePoint.Y)
+        //.HCenter()
+        //.VCenter()
         ;
     }
 }

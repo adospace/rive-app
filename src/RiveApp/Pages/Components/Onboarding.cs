@@ -1,5 +1,6 @@
 ﻿using MauiReactor;
 using MauiReactor.Animations;
+using MauiReactor.Canvas;
 using MauiReactor.Shapes;
 using RiveApp.Models;
 using RiveApp.Resources;
@@ -123,7 +124,7 @@ class Onboarding : Component<OnboardingState>
 class StartCourseButtonState
 {
     public bool IsPressed { get; set; }
-    public double MainScale { get; set; } = 1.0;
+    public double MainScale { get; set; } = 1.0f;
     public double BorderScaleX { get; set; }
 }
 
@@ -139,6 +140,125 @@ class StartCourseButton : Component<StartCourseButtonState>
 
     public override VisualNode Render()
     {
+        return new CanvasView()
+        {
+            new Align
+            {
+                new Group
+                {
+                    new Align
+                    {
+                        new Box()
+                            .CornerRadius(10,20,20,20)
+                            .Background(
+                                new MauiControls.LinearGradientBrush(
+                                    new MauiControls.GradientStopCollection
+                                    {
+                                        new MauiControls.GradientStop(Color.FromArgb("#F6AAA2"), 0.1535f),
+                                        new MauiControls.GradientStop(Color.FromArgb("#FF557C"), 0.8795f),
+                                    }))
+                    }
+                    .HStart()
+                    .VStart()
+                    .Height(63)
+                    .Width(69),
+
+                    new Align()
+                    {
+                        new DropShadow
+                        {
+                            new Box()
+                                .CornerRadius(25)
+                                .BorderColor(Colors.White)
+                                .BackgroundColor(Colors.Transparent)
+                        }
+                        .Color(Theme.ShadowDark)
+                        .Size(15, 15)
+                    }
+                    .Margin(8,10,2,2),
+
+                    new Picture("RiveApp.Resources.Images.start_course_button.png")
+                        .Margin(8,8,0,0),
+
+                    new Align ()
+                    {
+                        new ClipRectangle
+                        {
+                            new Box
+                            {
+                                new Align
+                                {
+                                    new Box()
+                                        .CornerRadius(25)
+                                        .BorderColor(Color.FromUint(0xFF6792FF).WithLuminosity(0.6f))
+                                        .BackgroundColor(Colors.Transparent)
+                                        .BorderSize(2)
+                                }
+                                .HCenter()
+                                .Width(228)
+                            }
+                            .Padding(9,10,2,2)
+                            .IsVisible(State.IsPressed)
+                            ,
+                        }
+                            
+                    }
+                    .Width(() => 236.0f * (float)State.BorderScaleX)
+                    .HCenter()
+                    ,
+
+                    new AnimationController
+                    {
+                        new SequenceAnimation
+                        {
+                            new DoubleAnimation()
+                                .StartValue(1.0)
+                                .TargetValue(0.8)
+                                .Duration(200)
+                                .Easing(Easing.CubicIn)
+                                .OnTick(v=>SetState(s => s.MainScale = v, false)),
+
+                            new DoubleAnimation()
+                                .StartValue(0.8)
+                                .TargetValue(1.0)
+                                .Duration(200)
+                                .Easing(Easing.CubicOut)
+                                .OnTick(v=>SetState(s => s.MainScale = v, false)),
+
+                            new DoubleAnimation()
+                                .StartValue(0.0)
+                                .TargetValue(1.0)
+                                .Easing(Easing.CubicIn)
+                                .Duration(300)
+                                .OnTick(v=>SetState(s => s.BorderScaleX = v, false)),
+
+                            new DoubleAnimation()
+                                .StartValue(1.0)
+                                .TargetValue(0.0)
+                                .Easing(Easing.CubicIn)
+                                .Duration(20)
+                                .OnTick(v=>SetState(s => s.BorderScaleX = v, false))
+                        }
+                        .IterationCount(1)
+                    }
+                    .IsEnabled(State.IsPressed)
+                    .OnIsEnabledChanged(isEnabled => SetState(s => s.IsPressed = isEnabled))
+                }
+            }
+            .ScaleX(() => (float)State.MainScale)
+            .ScaleY(() => (float)State.MainScale)
+        }
+        .HeightRequest(66)
+        .WidthRequest(236)
+        .BackgroundColor(Colors.Transparent)
+        .OnTapped(() =>
+        {
+            SetState(s => s.IsPressed = true);
+            MauiControls.Application.Current.Dispatcher.DispatchDelayed(TimeSpan.FromMilliseconds(800), _onTapped);
+        })
+        .Margin(40, 23)
+        .HStart();
+
         return new Grid("64", "236")
         {
             new Border()

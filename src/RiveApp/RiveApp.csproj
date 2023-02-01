@@ -39,11 +39,43 @@
     <!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
     <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
   </ItemGroup>
+  <ItemGroup>
+    <MauiImage Remove="Resources\Images\avatars\avatar_1.jpg" />
+    <MauiImage Remove="Resources\Images\avatars\avatar_2.jpg" />
+    <MauiImage Remove="Resources\Images\avatars\avatar_3.jpg" />
+    <MauiImage Remove="Resources\Images\avatars\avatar_4.jpg" />
+    <MauiImage Remove="Resources\Images\avatars\avatar_5.jpg" />
+    <MauiImage Remove="Resources\Images\avatars\avatar_6.jpg" />
+    <MauiImage Remove="Resources\Images\avatars\avatar_default.jpg" />
+    <MauiImage Remove="Resources\Images\billing_img.png" />
+    <MauiImage Remove="Resources\Images\favorites_img.png" />
+    <MauiImage Remove="Resources\Images\help_img.png" />
+    <MauiImage Remove="Resources\Images\home_img.png" />
+    <MauiImage Remove="Resources\Images\search_img.png" />
+    <MauiImage Remove="Resources\Images\start_course_button.png" />
+    <MauiImage Remove="Resources\Images\videos_img.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Images\avatars\avatar_1.jpg" />
+    <EmbeddedResource Include="Resources\Images\avatars\avatar_2.jpg" />
+    <EmbeddedResource Include="Resources\Images\avatars\avatar_3.jpg" />
+    <EmbeddedResource Include="Resources\Images\avatars\avatar_4.jpg" />
+    <EmbeddedResource Include="Resources\Images\avatars\avatar_5.jpg" />
+    <EmbeddedResource Include="Resources\Images\avatars\avatar_6.jpg" />
+    <EmbeddedResource Include="Resources\Images\avatars\avatar_default.jpg" />
+    <EmbeddedResource Include="Resources\Images\billing_img.png" />
+    <EmbeddedResource Include="Resources\Images\favorites_img.png" />
+    <EmbeddedResource Include="Resources\Images\help_img.png" />
+    <EmbeddedResource Include="Resources\Images\home_img.png" />
+    <EmbeddedResource Include="Resources\Images\search_img.png" />
+    <EmbeddedResource Include="Resources\Images\start_course_button.png" />
+    <EmbeddedResource Include="Resources\Images\videos_img.png" />
+  </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Reactor.Maui" Version="1.0.102-beta" />
-    <PackageReference Include="Reactor.Maui.Canvas" Version="1.0.102-beta" />
-    <PackageReference Include="Reactor.Maui.ScaffoldGenerator" Version="1.0.102-beta" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+    <PackageReference Include="Reactor.Maui" Version="1.0.103-beta" />
+    <PackageReference Include="Reactor.Maui.Canvas" Version="1.0.103-beta" />
+    <PackageReference Include="Reactor.Maui.ScaffoldGenerator" Version="1.0.103-beta" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
     <PackageReference Include="SkiaSharp.Extended.UI.Maui" Version="2.0.0-preview.61" />
   </ItemGroup>
 </Project>
