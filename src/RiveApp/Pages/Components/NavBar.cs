@@ -29,13 +29,13 @@ class NavBar : Component<NavBarState>
 
     protected override void OnMounted()
     {
-        State.TranslationY = _show ? 0 : 100;
+        State.TranslationY = _show ? 0 : 150;
         base.OnMounted();
     }
 
     protected override void OnPropsChanged()
     {
-        State.TranslationY = _show ? 0 : 100;
+        State.TranslationY = _show ? 0 : 150;
         base.OnPropsChanged();
     }
 
