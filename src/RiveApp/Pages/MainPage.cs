@@ -47,9 +47,6 @@ class MainPage : Component<MainPageState>
             }
             
         }
-//#if IOS
-//        .Set(MauiControls.PlatformConfiguration.iOSSpecific.Page.UseSafeAreaProperty, true)
-//#endif
         .Set(MauiControls.NavigationPage.HasNavigationBarProperty, false)
         .BackgroundColor(Theme.Background2)
         ;

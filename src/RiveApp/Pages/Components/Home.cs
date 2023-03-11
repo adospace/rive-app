@@ -167,7 +167,7 @@ class Home : Component<HomeMenuState>
 
         return new Border
         {
-            new Grid("64, 44, *, 44", "*,44")
+            new Grid("92, 44, *, 44", "*,44")
             {
                 new Label(model.Title)
                     .FontAttributes (MauiControls.FontAttributes.Bold)
@@ -198,12 +198,9 @@ class Home : Component<HomeMenuState>
 
                 new HStack(spacing: -8)
                 {
-                    new []
-                    {
-                        RenderAvatar("avatar_4.jpg"),
-                        RenderAvatar("avatar_5.jpg"),
-                        RenderAvatar("avatar_6.jpg"),
-                    }
+                    RenderAvatar("avatar_4.png"),
+                    RenderAvatar("avatar_5.png"),
+                    RenderAvatar("avatar_6.png"),
                 }
                 .GridColumnSpan(2)
                 .GridRow(3)

@@ -2,6 +2,7 @@
 using MauiReactor.Animations;
 using MauiReactor.Canvas;
 using MauiReactor.Shapes;
+using Microsoft.Maui.Devices;
 using Microsoft.Maui.Platform;
 using RiveApp.Controls;
 using RiveApp.Resources;
@@ -54,13 +55,13 @@ class Login : Component<LoginState>
 
     protected override void OnMounted()
     {
-        State.TranslationY = _show ? 0 : -798;
+        State.TranslationY = _show ? 0 : -DeviceDisplay.Current.MainDisplayInfo.Height;
         base.OnMounted();
     }
 
     protected override void OnPropsChanged()
     {
-        State.TranslationY = _show ? 0 : -798;
+        State.TranslationY = _show ? 0 : -DeviceDisplay.Current.MainDisplayInfo.Height;
         base.OnPropsChanged();
     }
 
@@ -100,7 +101,6 @@ class Login : Component<LoginState>
                         .Margin(0,24,0,24),
 
                     RenderSeparator()
-                        //.Margin(0,24,0,0)
                         .GridRow(5),
 
                     new LoginButton()
@@ -211,7 +211,7 @@ class Login : Component<LoginState>
                 .GridColumnSpan(2)
         };
 
-    Grid RenderSeparator()
+    static Grid RenderSeparator()
         => new("16", "*,Auto,*")
         {
             new Rectangle()
@@ -378,4 +378,3 @@ class LoginButton : Component<LoginButtonState>
         ;
     }
 }
-

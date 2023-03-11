@@ -49,7 +49,7 @@ class SideMenu : Component<SideMenuState>
 
     public override VisualNode Render()
     {
-        return new Grid("39, Auto, *, Auto", "250")
+        return new Grid("39, 300, *, 120", "250")
         {
             RenderHeader(),
 
@@ -146,7 +146,7 @@ class SideMenu : Component<SideMenuState>
 
     VisualNode RenderBottom()
     {
-        return new Grid("*", "*")
+        return new Grid()
         {
 
         }
@@ -276,51 +276,6 @@ class SideMenuItem : Component<SideMenuItemState>
         .OnTapped(_selectAction)
         .WidthRequest(225.0)
         .HeightRequest(52);
-        ;
-            
-        //    new Grid("52", "24, *")
-        //{
-        //    new Rectangle()
-        //        .HeightRequest(1)
-        //        .HFill()
-        //        .VStart()
-        //        .GridColumnSpan(2)
-        //        .BackgroundColor(Theme.Background.WithAlpha(0.1f))
-        //        ,
-
-        //    new CanvasView
-        //    {
-        //        new Align
-        //        {
-        //            new Box()
-        //                .CornerRadius(12)
-        //                .BackgroundColor(Color.FromUint(0xFF6792FF).WithLuminosity(0.6f))
-        //        }
-        //        .HorizontalAlignment(Microsoft.Maui.Primitives.LayoutAlignment.Start)
-        //        .Width(State.ScaleX * 225.0f)
-        //        .WithAnimation(duration: 200)
-        //    }
-        //    .BackgroundColor(Colors.Transparent)
-        //    .GridColumnSpan(2)
-        //    .HStart()
-        //    .Margin(-8,-2)
-        //    .WidthRequest(225.0)
-        //    .OnTapped(_selectAction)
-        //    ,
-
-        //    //new AnimatedIcon()
-        //    //    .Icon(_icon)
-        //    //    .IsSelected(State.IsSelected)
-        //    //    ,
-
-        //    new Label(_label)
-        //        .FontSize(17)
-        //        .TextColor(Colors.LightGray)
-        //        .VCenter()
-        //        .Margin(8,0)
-        //        .GridColumn(1),
-        //}
-        //.OnTapped(_selectAction);
     }
 }
 
@@ -376,7 +331,6 @@ class AnimatedIcon : Component<AnimatedIconState>
     {
         return new Align
         {
-            //new Image(_icon),
             new Picture($"RiveApp.Resources.Images.{_icon}")
                 .Aspect(Aspect.Fill),
 
@@ -410,41 +364,6 @@ class AnimatedIcon : Component<AnimatedIconState>
         .TranslationX(() => State.TranslatePoint.X)
         .TranslationY(() => State.TranslatePoint.Y)
         .HCenter()
-        .VCenter()
-
-        //return new Grid("24", "24")
-        //{
-        //    new Image(_icon),
-
-        //    new AnimationController
-        //    {
-        //        new SequenceAnimation
-        //        {
-        //            new CubicBezierPathAnimation()
-        //                .StartPoint(0,0)
-        //                .EndPoint(0,5)
-        //                .ControlPoint1(5,0)
-        //                .ControlPoint2(5,5)
-        //                .OnTick(v => SetState(s => s.TranslatePoint = v))
-        //                .Duration(200),
-
-        //            new CubicBezierPathAnimation()
-        //                .StartPoint(0,5)
-        //                .EndPoint(0,0)
-        //                .ControlPoint1(-5,5)
-        //                .ControlPoint2(-5,0)
-        //                .OnTick(v => SetState(s => s.TranslatePoint = v))
-        //                .Duration(200),
-        //        }
-        //        .IterationCount(1)
-        //    }
-        //    .IsEnabled(State.IsAnimating)
-        //    .OnIsEnabledChanged(animating => State.IsAnimating = animating)
-        //}
-        //.TranslationX(() => State.TranslatePoint.X)
-        //.TranslationY(() => -State.TranslatePoint.Y)
-        //.HCenter()
-        //.VCenter()
-        ;
+        .VCenter();
     }
 }
