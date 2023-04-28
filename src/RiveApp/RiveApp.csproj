@@ -40,13 +40,6 @@
     <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
   </ItemGroup>
   <ItemGroup>
-    <MauiImage Remove="Resources\Images\avatars\avatar_1.jpg" />
-    <MauiImage Remove="Resources\Images\avatars\avatar_2.jpg" />
-    <MauiImage Remove="Resources\Images\avatars\avatar_3.jpg" />
-    <MauiImage Remove="Resources\Images\avatars\avatar_4.jpg" />
-    <MauiImage Remove="Resources\Images\avatars\avatar_5.jpg" />
-    <MauiImage Remove="Resources\Images\avatars\avatar_6.jpg" />
-    <MauiImage Remove="Resources\Images\avatars\avatar_default.jpg" />
     <MauiImage Remove="Resources\Images\billing_img.png" />
     <MauiImage Remove="Resources\Images\favorites_img.png" />
     <MauiImage Remove="Resources\Images\help_img.png" />
@@ -56,13 +49,6 @@
     <MauiImage Remove="Resources\Images\videos_img.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\Images\avatars\avatar_1.jpg" />
-    <EmbeddedResource Include="Resources\Images\avatars\avatar_2.jpg" />
-    <EmbeddedResource Include="Resources\Images\avatars\avatar_3.jpg" />
-    <EmbeddedResource Include="Resources\Images\avatars\avatar_4.jpg" />
-    <EmbeddedResource Include="Resources\Images\avatars\avatar_5.jpg" />
-    <EmbeddedResource Include="Resources\Images\avatars\avatar_6.jpg" />
-    <EmbeddedResource Include="Resources\Images\avatars\avatar_default.jpg" />
     <EmbeddedResource Include="Resources\Images\billing_img.png" />
     <EmbeddedResource Include="Resources\Images\favorites_img.png" />
     <EmbeddedResource Include="Resources\Images\help_img.png" />

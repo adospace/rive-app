@@ -160,18 +160,21 @@ class Home : Component<HomeMenuState>
         VisualNode RenderAvatar(string image)
             => new Image(image)
                 .Aspect(Aspect.AspectFit)
+                .HeightRequest(44)
+                .WidthRequest(44)
                 .Clip(new EllipseGeometry().RadiusX(22).RadiusY(22).Center(22, 22))
                 ;
 
         return new Border
         {
-            new Grid("64, 44, *, 44", "*,44")
+            new Grid("92, 44, *, 44", "*,44")
             {
                 new Label(model.Title)
                     .FontAttributes (MauiControls.FontAttributes.Bold)
                     .FontSize(24)
                     .FontFamily("PoppinsBold")
                     .TextColor (Colors.White)
+                    .VStart()
                     ,
 
                 new Image(model.Image)
@@ -195,12 +198,9 @@ class Home : Component<HomeMenuState>
 
                 new HStack(spacing: -8)
                 {
-                    new []
-                    {
-                        RenderAvatar("avatar_4.jpg"),
-                        RenderAvatar("avatar_5.jpg"),
-                        RenderAvatar("avatar_6.jpg"),
-                    }
+                    RenderAvatar("avatar_4.png"),
+                    RenderAvatar("avatar_5.png"),
+                    RenderAvatar("avatar_6.png"),
                 }
                 .GridColumnSpan(2)
                 .GridRow(3)
@@ -210,7 +210,7 @@ class Home : Component<HomeMenuState>
         .HeightRequest(309)
         .WidthRequest(260)
         .BackgroundColor(model.Color)
-        .StrokeShape(new RoundRectangle().CornerRadius(30))
+        .StrokeShape(new RoundRectangle().CornerRadius(DeviceInfo.Current.Platform == DevicePlatform.iOS ? 20 : 30))
         .Shadow(new Shadow().Opacity(0.2f).Offset(5, 5).Brush(Theme.ShadowBrush));
     }
 
@@ -253,7 +253,8 @@ class Home : Component<HomeMenuState>
         .Padding(30, 26)
         .HeightRequest(110)
         .BackgroundColor(model.Color)
-        .StrokeShape(new RoundRectangle().CornerRadius(20));
+        .StrokeShape(new RoundRectangle().CornerRadius(DeviceInfo.Current.Platform == DevicePlatform.iOS ? 15 : 20))
+        ;
     }
 }
 

@@ -2,6 +2,7 @@
 using MauiReactor.Animations;
 using MauiReactor.Canvas;
 using MauiReactor.Shapes;
+using Microsoft.Maui.Devices;
 using Microsoft.Maui.Platform;
 using RiveApp.Controls;
 using RiveApp.Resources;
@@ -39,7 +40,6 @@ class Login : Component<LoginState>
 {
     private Action _onClose;
     private bool _show;
-    private MauiControls.Border _containerRef;
 
     public Login OnClose(Action action)
     {
@@ -55,13 +55,13 @@ class Login : Component<LoginState>
 
     protected override void OnMounted()
     {
-        State.TranslationY = _show ? 0 : -798;
+        State.TranslationY = _show ? 0 : -DeviceDisplay.Current.MainDisplayInfo.Height;
         base.OnMounted();
     }
 
     protected override void OnPropsChanged()
     {
-        State.TranslationY = _show ? 0 : -798;
+        State.TranslationY = _show ? 0 : -DeviceDisplay.Current.MainDisplayInfo.Height;
         base.OnPropsChanged();
     }
 
@@ -69,7 +69,7 @@ class Login : Component<LoginState>
     {
         return new Grid("*", "*")
         {
-            new Border(containerRef => _containerRef = containerRef)
+            new Border
             {
                 new Grid("Auto, 78, Auto, Auto, *, Auto, Auto, 88", "*")
                 {
@@ -101,7 +101,6 @@ class Login : Component<LoginState>
                         .Margin(0,24,0,24),
 
                     RenderSeparator()
-                        //.Margin(0,24,0,0)
                         .GridRow(5),
 
                     new LoginButton()
@@ -110,6 +109,7 @@ class Login : Component<LoginState>
 
                     new Label("Sign up with Email, Apple or Google")
                         .FontSize(13)
+                        .TextColor(Colors.Black.WithAlpha(0.5f))
                         .Margin(0,24,0,0)
                         .HCenter()
                         .GridRow(6),
@@ -147,7 +147,7 @@ class Login : Component<LoginState>
         }
         .TranslationY(State.TranslationY)
         .WithAnimation(easing: ExtendedEasing.InOutQuart, duration: 600)
-        .Margin(16, 76, 16, 48);
+        .Margin(16, 76, 16, 18);
     }
 
     ImageButton RenderCloseButton() =>
@@ -171,6 +171,7 @@ class Login : Component<LoginState>
         {
             new Label(label)
                 .FontSize (15)
+                .TextColor(Colors.Black.WithAlpha(0.5f))
                 .VStart()
                 ,
 
@@ -196,6 +197,7 @@ class Login : Component<LoginState>
                         })),
 
             new Image("email.png")
+                .WidthRequest(44)
                 .GridRow(1)
                 .Margin(8)
                 .HStart(),
@@ -209,7 +211,7 @@ class Login : Component<LoginState>
                 .GridColumnSpan(2)
         };
 
-    Grid RenderSeparator()
+    static Grid RenderSeparator()
         => new("16", "*,Auto,*")
         {
             new Rectangle()
@@ -219,6 +221,7 @@ class Login : Component<LoginState>
 
             new Label("OR")
                 .FontSize(13)
+                .TextColor(Colors.Black.WithAlpha(0.5f))
                 .Margin(8,0)
                 .VCenter()
                 .GridColumn(1),
@@ -375,4 +378,3 @@ class LoginButton : Component<LoginButtonState>
         ;
     }
 }
-

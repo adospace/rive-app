@@ -2,6 +2,7 @@
 using MauiReactor.Animations;
 using MauiReactor.Canvas;
 using MauiReactor.Shapes;
+using Microsoft.Maui.Devices;
 using RiveApp.Models;
 using RiveApp.Resources;
 using System;
@@ -39,13 +40,13 @@ class Onboarding : Component<OnboardingState>
 
     protected override void OnMounted()
     {
-        State.TranslationY = _show ? 0 : -798;
+        State.TranslationY = _show ? -50 : -DeviceDisplay.Current.MainDisplayInfo.Height;
         base.OnMounted();
     }
 
     protected override void OnPropsChanged()
     {
-        State.TranslationY = _show ? 0 : -798;
+        State.TranslationY = _show ? -50 : -DeviceDisplay.Current.MainDisplayInfo.Height;
         base.OnPropsChanged();
     }
 
@@ -101,7 +102,7 @@ class Onboarding : Component<OnboardingState>
 
             }
         }
-        .StrokeShape(new RoundRectangle().CornerRadius(0, 0, 30, 30))
+        .StrokeShape(new RoundRectangle().CornerRadius(30))
         .Margin(7, 0, 7, 10)
         .Background(Colors.White);
     }
@@ -162,20 +163,6 @@ class StartCourseButton : Component<StartCourseButtonState>
                     .VStart()
                     .Height(63)
                     .Width(69),
-
-                    new Align()
-                    {
-                        new DropShadow
-                        {
-                            new Box()
-                                .CornerRadius(25)
-                                .BorderColor(Colors.White)
-                                .BackgroundColor(Colors.Transparent)
-                        }
-                        .Color(Theme.ShadowDark)
-                        .Size(15, 15)
-                    }
-                    .Margin(8,10,2,2),
 
                     new Picture("RiveApp.Resources.Images.start_course_button.png")
                         .Margin(8,8,0,0),
