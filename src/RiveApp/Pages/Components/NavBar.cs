@@ -249,7 +249,7 @@ class NavBarButtonIcon : Component<NavBarButtonIconState>
 
     public override VisualNode Render()
     {
-        return new PointInterationHandler
+        return new PointInteractionHandler
         {
             new Align
             {

@@ -73,9 +73,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Reactor.Maui" Version="1.0.103-beta" />
-    <PackageReference Include="Reactor.Maui.Canvas" Version="1.0.103-beta" />
-    <PackageReference Include="Reactor.Maui.ScaffoldGenerator" Version="1.0.103-beta" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+    <PackageReference Include="Reactor.Maui" Version="1.0.122" />
+    <PackageReference Include="Reactor.Maui.Canvas" Version="1.0.122" />
+    <PackageReference Include="Reactor.Maui.ScaffoldGenerator" Version="1.0.122" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
     <PackageReference Include="SkiaSharp.Extended.UI.Maui" Version="2.0.0-preview.61" />
   </ItemGroup>
 </Project>
