@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net7.0-android;net7.0-ios</TargetFrameworks>
+    <TargetFrameworks>net8.0-android;net8.0-ios</TargetFrameworks>
     <OutputType>Exe</OutputType>
     <RootNamespace>RiveApp</RootNamespace>
     <UseMaui>true</UseMaui>
@@ -48,6 +48,7 @@
     <MauiImage Remove="Resources\Images\start_course_button.png" />
     <MauiImage Remove="Resources\Images\videos_img.png" />
   </ItemGroup>
+  
   <ItemGroup>
     <EmbeddedResource Include="Resources\Images\billing_img.png" />
     <EmbeddedResource Include="Resources\Images\favorites_img.png" />
@@ -59,9 +60,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Reactor.Maui" Version="1.0.*" />
-    <PackageReference Include="Reactor.Maui.Canvas" Version="1.0.*" />
-    <PackageReference Include="Reactor.Maui.ScaffoldGenerator" Version="1.0.*" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+    <PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
+    <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Reactor.Maui" Version="2.0.14-beta" />
+    <PackageReference Include="Reactor.Maui.Canvas" Version="2.0.14-beta" />
+    <PackageReference Include="Reactor.Maui.ScaffoldGenerator" Version="2.0.14-beta" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
     <PackageReference Include="SkiaSharp.Extended.UI.Maui" Version="2.0.0-preview.61" />
   </ItemGroup>
 </Project>

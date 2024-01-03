@@ -19,46 +19,30 @@ class SideMenuState
     public CommandMenuItem SelectedMenuItem { get; set; }
 }
 
-class SideMenu : Component<SideMenuState>
+partial class SideMenu : Component<SideMenuState>
 {
+    [Prop]
     private bool _isShown;
 
-    public SideMenu IsShown(bool isShown)
-    {
-        _isShown = isShown;
-        return this;
-    }
-
-    protected override void OnMounted()
+    protected override void OnMountedOrPropsChanged()
     {
         State.TranslationX = _isShown ? 0 : -250;
         State.Opacity = _isShown ? 1.0 : 0.0;
         State.RotationY = _isShown ? 0.0 : 10;
-
-        base.OnMounted();
-    }
-
-    protected override void OnPropsChanged()
-    {
-        State.TranslationX = _isShown ? 0 : -250;
-        State.Opacity = _isShown ? 1.0 : 0.0;
-        State.RotationY = _isShown ? 0.0 : 10;
-
-        base.OnPropsChanged();
+        base.OnMountedOrPropsChanged();
     }
 
     public override VisualNode Render()
     {
-        return new Grid("39, 300, *, 120", "250")
-        {
-            RenderHeader(),
+        return Grid("39, 300, *, 120", "250",
+            SideMenu.RenderHeader(),
 
             RenderBrowse(),
 
             RenderHistory(),
 
             RenderBottom()
-        }
+        )
         .Padding(0, 60)
         .RotationY(State.RotationY)
         .TranslationX(State.TranslationX)
@@ -68,90 +52,74 @@ class SideMenu : Component<SideMenuState>
         .HStart();
     }
 
-    VisualNode RenderHeader()
-    {
-        return new Grid("20, 18", "36, *")
-        {
-            new Image("user_dark.png")
+    static Grid RenderHeader() 
+        => Grid("20, 18", "36, *",
+            Image("user_dark.png")
                 .Aspect(Aspect.Center)
                 .GridRowSpan(2)
                 .HeightRequest(36)
                 .WidthRequest(36)
                 .VStart()
-                .Clip(new EllipseGeometry().RadiusX(18).RadiusY(18).Center(18,18)),
+                .Clip(new EllipseGeometry().RadiusX(18).RadiusY(18).Center(18, 18)),
 
-            new Label("Ado")
+            Label("Ado")
                 .FontSize(17)
                 .TextColor(Colors.White)
                 .VEnd()
                 .GridColumn(1)
-                .Margin(5,0),
+                .Margin(5, 0),
 
-            new Label("Software Engineer")
+            Label("Software Engineer")
                 .FontSize(13)
                 .TextColor(Colors.White.WithAlpha(0.5f))
                 .VStart()
                 .GridColumn(1)
                 .GridRow(2)
-                .Margin(5,0)
-        }
+                .Margin(5, 0)
+        )
         .Margin(18, 0);
-    }
 
-    VisualNode RenderBrowse()
-    {
-        return new Grid("16, *", "*")
-        {
-            new Label("BROWSE")
+    Grid RenderBrowse() 
+        => Grid("16, *", "*",
+            Label("BROWSE")
                 .FontSize(12)
                 .TextColor(Colors.White.WithAlpha(0.6f))
                 .FontAttributes(MauiControls.FontAttributes.Bold)
                 .VEnd(),
 
-            new VStack(spacing: 0)
-            {
+            VStack(spacing: 0,
                 RenderMenuItem("Home", "home_img.png", CommandMenuItem.Home, true),
                 RenderMenuItem("Search", "search_img.png", CommandMenuItem.Search),
                 RenderMenuItem("Favorites", "favorites_img.png", CommandMenuItem.Favorites),
-                RenderMenuItem("Help", "help_img.png", CommandMenuItem.Help),
-            }
-            .Margin(20,8,0,0)
+                RenderMenuItem("Help", "help_img.png", CommandMenuItem.Help)
+            )
+            .Margin(20, 8, 0, 0)
             .GridRow(1)
-        }
+        )
         .Margin(30, 37)
         .GridRow(1);
-    }
 
-    VisualNode RenderHistory()
-    {
-        return new Grid("16, *", "*")
-        {
-            new Label("HISTORY")
+    Grid RenderHistory() 
+        => Grid("16, *", "*",
+            Label("HISTORY")
                 .FontSize(12)
                 .TextColor(Colors.White.WithAlpha(0.6f))
                 .FontAttributes(MauiControls.FontAttributes.Bold)
                 .VEnd(),
 
-            new VStack(spacing: 0)
-            {
+            VStack(spacing: 0,
                 RenderMenuItem("History", "billing_img.png", CommandMenuItem.History, true),
-                RenderMenuItem("Notification", "videos_img.png", CommandMenuItem.Notification),
-            }
-            .Margin(20,8,0,0)
+                RenderMenuItem("Notification", "videos_img.png", CommandMenuItem.Notification)
+            )
+            .Margin(20, 8, 0, 0)
             .GridRow(1)
-        }
+        )
         .Margin(30, 50)
         .GridRow(2);
-    }
 
-    VisualNode RenderBottom()
-    {
-        return new Grid()
-        {
-
-        }
-        .GridRow(3);
-    }
+    Grid RenderBottom() 
+        => Grid()
+            .GridRow(3);
 
     VisualNode RenderMenuItem(string title, string icon, CommandMenuItem command, bool firstItem = false)
     {
@@ -170,56 +138,24 @@ class SideMenuItemState
     public bool IsSelected { get; set; }
 }
 
-class SideMenuItem : Component<SideMenuItemState>
+partial class SideMenuItem : Component<SideMenuItemState>
 {
+    [Prop]
     private string _label;
+    [Prop]
     private string _icon;
-    private bool _selected;
-    private Action _selectAction;
+    [Prop]
+    private bool _isSelected;
+    [Prop]
+    private Action _onSelect;
+    [Prop]
     private bool _firstItem;
 
-    public SideMenuItem Label(string label)
+    protected override void OnMountedOrPropsChanged()
     {
-        _label = label;
-        return this;
-    }
-
-    public SideMenuItem Icon(string icon)
-    {
-        _icon = icon;
-        return this;
-    }
-
-    public SideMenuItem IsSelected(bool selected)
-    {
-        _selected = selected;
-        return this;
-    }
-
-    public SideMenuItem OnSelect(Action selectAction)
-    {
-        _selectAction = selectAction;
-        return this;
-    }
-
-    public SideMenuItem FirstItem(bool firstItem)
-    {
-        _firstItem = firstItem;
-        return this;
-    }
-
-    protected override void OnMounted()
-    {
-        State.ScaleX = _selected ? 1.0f : 0.0f;
-        State.IsSelected = _selected;
-        base.OnMounted();
-    }
-
-    protected override void OnPropsChanged()
-    {
-        State.ScaleX = _selected ? 1.0f : 0.0f;
-        State.IsSelected = _selected;
-        base.OnPropsChanged();
+        State.ScaleX = _isSelected ? 1.0f : 0.0f;
+        State.IsSelected = _isSelected;
+        base.OnMountedOrPropsChanged();
     }
 
     public override VisualNode Render()
@@ -258,7 +194,7 @@ class SideMenuItem : Component<SideMenuItemState>
                 {
                     new AnimatedIcon()
                         .Icon(_icon)
-                        .IsSelected(_selected)
+                        .IsSelected(_isSelected)
                     ,
 
                     new Text(_label)
@@ -273,7 +209,7 @@ class SideMenuItem : Component<SideMenuItemState>
         }
         .Margin(-8, -2)
         .BackgroundColor(Colors.Transparent)
-        .OnTapped(_selectAction)
+        .OnTapped(_onSelect)
         .WidthRequest(225.0)
         .HeightRequest(52);
     }
@@ -286,22 +222,13 @@ class AnimatedIconState
     public bool IsSelected { get; set; }
 }
 
-class AnimatedIcon : Component<AnimatedIconState>
+partial class AnimatedIcon : Component<AnimatedIconState>
 {
-    private string _icon;
-    private bool _isSelected;
+    [Prop]
+    string _icon;
 
-    public AnimatedIcon Icon(string icon)
-    {
-        _icon = icon;
-        return this;
-    }
-
-    public AnimatedIcon IsSelected(bool selected)
-    {
-        _isSelected = selected;
-        return this;
-    }
+    [Prop]
+    bool _isSelected;
 
     protected override void OnMounted()
     {

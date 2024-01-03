@@ -36,44 +36,26 @@ class LoginState
     public bool LoginFailing { get; set; }
 }
 
-class Login : Component<LoginState>
+partial class Login : Component<LoginState>
 {
+    [Prop]
     private Action _onClose;
+
+    [Prop]
     private bool _show;
 
-    public Login OnClose(Action action)
-    {
-        _onClose = action;
-        return this;
-    }
-
-    public Login Show(bool show)
-    {
-        _show = show;
-        return this;
-    }
-
-    protected override void OnMounted()
+    protected override void OnMountedOrPropsChanged()
     {
         State.TranslationY = _show ? 0 : -DeviceDisplay.Current.MainDisplayInfo.Height;
-        base.OnMounted();
-    }
-
-    protected override void OnPropsChanged()
-    {
-        State.TranslationY = _show ? 0 : -DeviceDisplay.Current.MainDisplayInfo.Height;
-        base.OnPropsChanged();
+        base.OnMountedOrPropsChanged();
     }
 
     public override VisualNode Render()
     {
-        return new Grid("*", "*")
-        {
-            new Border
-            {
-                new Grid("Auto, 78, Auto, Auto, *, Auto, Auto, 88", "*")
-                {
-                    new Label("Sign in")
+        return Grid("*", "*",
+            Border(
+                Grid("Auto, 78, Auto, Auto, *, Auto, Auto, 88", "*",
+                    Label("Sign in")
                         .FontFamily("Poppins")
                         .FontSize(34)
                         .TextColor(Colors.Black)
@@ -88,17 +70,16 @@ class Login : Component<LoginState>
                             .FontWeight(700)
                             .HorizontalAlignment(HorizontalAlignment.Center)
                     }
-                    .Margin(0,24,0,0)
+                    .Margin(0, 24, 0, 0)
                     .GridRow(1),
 
                     RenderEntry("Email", State.Email, v => State.Email = v, !State.LoggingIn)
                         .GridRow(2)
-                        .Margin(0,24,0,0),
+                        .Margin(0, 24, 0, 0),
 
                     RenderEntry("Password", State.Password, v => State.Password = v, !State.LoggingIn, "Forgot password")
-                        .IsEnabled(State.LoggingIn)
                         .GridRow(3)
-                        .Margin(0,24,0,24),
+                        .Margin(0, 24, 0, 24),
 
                     RenderSeparator()
                         .GridRow(5),
@@ -107,51 +88,45 @@ class Login : Component<LoginState>
                         .OnTapped(OnSignin)
                         .GridRow(4),
 
-                    new Label("Sign up with Email, Apple or Google")
+                    Label("Sign up with Email, Apple or Google")
                         .FontSize(13)
                         .TextColor(Colors.Black.WithAlpha(0.5f))
-                        .Margin(0,24,0,0)
+                        .Margin(0, 24, 0, 0)
                         .HCenter()
                         .GridRow(6),
 
-                    new FlexLayout()
-                    {
-                        new Image("logo_email.png"),
-                        new Image("logo_apple.png"),
-                        new Image("logo_google.png"),
-                    }
+                    FlexLayout(
+                        Image("logo_email.png"),
+                        Image("logo_apple.png"),
+                        Image("logo_google.png")
+                    )
                     .JustifyContent(Microsoft.Maui.Layouts.FlexJustify.SpaceBetween)
-                    .Margin(0,24,0,0)
+                    .Margin(0, 24, 0, 0)
                     .GridRow(7)
-                }
-            }
-            .StrokeShape(new RoundRectangle().CornerRadius(20))
-            .Shadow(new Shadow().Brush(Colors.Black)
+                )
+            )
+            .StrokeCornerRadius(20)
+            .Shadow(Shadow()
+                .Brush(Colors.Black)
                 .Opacity(1f)
                 .Offset(5, 5)
                 .Radius(200))
-            .Background(
-                    new MauiControls.LinearGradientBrush(
-                        new MauiControls.GradientStopCollection
-                        {
-                            new MauiControls.GradientStop(Colors.White, 0),
-                            new MauiControls.GradientStop(Colors.White.WithAlpha(0.9f), 1.0f),
-                        }))
+            .Background(new LinearGradient(135.0, (Colors.White, 0), (Colors.White.WithAlpha(0.9f), 1.0f)))
             .Padding(30, 48, 30, 41)
-            .Margin(0,0,0,18)
+            .Margin(0, 0, 0, 18)
             ,
 
             RenderCloseButton(),
 
             RenderLoggingIn()
-        }
+        )
         .TranslationY(State.TranslationY)
         .WithAnimation(easing: ExtendedEasing.InOutQuart, duration: 600)
         .Margin(16, 76, 16, 18);
     }
 
     ImageButton RenderCloseButton() =>
-        new ImageButton("close_black.png")
+        ImageButton("close_black.png")
             .Aspect(Aspect.Center)
             .CornerRadius(18)
             .Shadow(new Shadow().Brush(Colors.Black)
@@ -167,16 +142,15 @@ class Login : Component<LoginState>
             .OnClicked(_onClose);
 
     static Grid RenderEntry(string label, string value, Action<string> onSetValueAction, bool isEnabled, string secondaryLabel = null)
-        => new("26, 50", "*, *")
-        {
-            new Label(label)
-                .FontSize (15)
+        => Grid("26, 50", "*, *",
+            Label(label)
+                .FontSize(15)
                 .TextColor(Colors.Black.WithAlpha(0.5f))
                 .VStart()
                 ,
 
-            new Label(secondaryLabel)
-                .FontSize (15)
+            Label(secondaryLabel)
+                .FontSize(15)
                 .VStart()
                 .HEnd()
                 .TextColor(Colors.Black.WithAlpha(0.3f))
@@ -184,7 +158,7 @@ class Login : Component<LoginState>
                 .GridColumnSpan(2)
                 ,
 
-            new Border()
+            Border()
                 .GridRow(1)
                 .GridColumnSpan(2)
                 .StrokeShape(new RoundRectangle().CornerRadius(15))
@@ -196,7 +170,7 @@ class Login : Component<LoginState>
                             new MauiControls.GradientStop(Color.FromArgb("#98A4C1").WithAlpha(0.20f), 1),
                         })),
 
-            new Image("email.png")
+            Image("email.png")
                 .WidthRequest(44)
                 .GridRow(1)
                 .Margin(8)
@@ -206,32 +180,31 @@ class Login : Component<LoginState>
                 .Text(value)
                 .IsEnabled(isEnabled)
                 .OnTextChanged(onSetValueAction)
-                .Margin(8+24+12, 8, 8, 8)
+                .Margin(8 + 24 + 12, 8, 8, 8)
                 .GridRow(1)
                 .GridColumnSpan(2)
-        };
+        );
 
     static Grid RenderSeparator()
-        => new("16", "*,Auto,*")
-        {
-            new Rectangle()
+        => Grid("16", "*,Auto,*",
+            Border()
                 .HeightRequest(2)
                 .VCenter()
-                .Fill(Colors.Black.WithAlpha(0.1f)),
+                .BackgroundColor(Colors.Black.WithAlpha(0.1f)),
 
-            new Label("OR")
+            Label("OR")
                 .FontSize(13)
                 .TextColor(Colors.Black.WithAlpha(0.5f))
-                .Margin(8,0)
+                .Margin(8, 0)
                 .VCenter()
                 .GridColumn(1),
 
-            new Rectangle()
+            Border()
                 .HeightRequest(2)
                 .VCenter()
-                .Fill(Colors.Black.WithAlpha(0.1f))
-                .GridColumn(2),
-        };
+                .BackgroundColor(Colors.Black.WithAlpha(0.1f))
+                .GridColumn(2)
+        );
 
     SKLottieView RenderLoggingIn()
         => new SKLottieView()
@@ -255,7 +228,7 @@ class Login : Component<LoginState>
         {
             SetState(s => s.LoggingIn = s.LoginFailing = true);
             MauiControls.Application.Current.Dispatcher.DispatchDelayed(TimeSpan.FromMilliseconds(2000),
-                ()=> SetState(s =>
+                () => SetState(s =>
                 {
                     s.LoggingIn = s.LoginFailing = false;
                     s.Email = s.Password = string.Empty;
@@ -288,43 +261,35 @@ class LoginButtonState
     public double Opacity { get; set; } = 1.0;
 }
 
-class LoginButton : Component<LoginButtonState>
+partial class LoginButton : Component<LoginButtonState>
 {
+    [Prop]
     private Action _onTapped;
-
-    public LoginButton OnTapped(Action action)
-    {
-        _onTapped = action;
-        return this;
-    }
 
     public override VisualNode Render()
     {
-        return new Grid("56", "*")
-        {
-            new Border()
-            {
-                new Grid("*", "24, *")
-                {
-                    new Image("arrow_right.png")
+        return Grid("56", "*",
+            Border(
+                Grid("*", "24, *",
+                    Image("arrow_right.png")
                         ,
-                    new Label("Sign in")
-                        .Margin(8,0,0,0)
+                    Label("Sign in")
+                        .Margin(8, 0, 0, 0)
                         .FontSize(17)
                         .GridColumn(1)
                         .TextColor(Colors.White)
-                }
+                )
                 .HCenter()
-            }
+            )
             .StrokeShape(new RoundRectangle().CornerRadius(10, 25, 25, 25))
             .Shadow(new Shadow()
-                .Brush(Color.FromRgba(247, 125, 152, (int)(255.0*0.3)))
+                .Brush(Color.FromRgba(247, 125, 152, (int)(255.0 * 0.3)))
                 .Offset(0, 10)
                 .Radius(20))
             .BackgroundColor(Color.FromArgb("#F77D8E"))
             .Padding(20, 16)
-            .Opacity(()=>State.Opacity)
-            .Scale(()=>State.Scale),
+            .Opacity(() => State.Opacity)
+            .Scale(() => State.Scale),
 
             new AnimationController
             {
@@ -369,7 +334,7 @@ class LoginButton : Component<LoginButtonState>
             .IsEnabled(State.IsPressed)
             .OnIsEnabledChanged(isEnabled => SetState(s => s.IsPressed = isEnabled))
 
-        }
+        )
         .OnTapped(() =>
         {
             MauiControls.Application.Current.Dispatcher.DispatchDelayed(TimeSpan.FromMilliseconds(200), _onTapped);

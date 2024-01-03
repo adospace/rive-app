@@ -23,41 +23,21 @@ class HomeMenuState
     public double MainOpacity { get; set; } = 1.0;
 }
 
-class Home : Component<HomeMenuState>
+partial class Home : Component<HomeMenuState>
 {
+    [Prop]
     private bool _isShown;
+
+    [Prop]
     private Action _onShowOnboarding;
+
+    [Prop]
     private bool _isMovedBack;
 
-    public Home IsHidden(bool isHidden)
-    {
-        _isShown = !isHidden;
-        return this;
-    }
-
-    public Home IsMovedBack(bool isMovedBack)
-    {
-        _isMovedBack = isMovedBack;
-        return this;
-    }
-
-    public Home OnShowOnboarding(Action action)
-    {
-        _onShowOnboarding = action;
-        return this;
-    }
-
-    protected override void OnMounted()
+    protected override void OnMountedOrPropsChanged()
     {
         InitializeState();
-        base.OnMounted();
-    }
-
-    protected override void OnPropsChanged()
-    {
-        InitializeState();
-
-        base.OnPropsChanged();
+        base.OnMountedOrPropsChanged();
     }
 
     void InitializeState()
@@ -79,32 +59,27 @@ class Home : Component<HomeMenuState>
 
     public override VisualNode Render()
     {
-        return new Border
-        {
-            new ScrollView
-            {
-                new Grid("161, 309, 59, *", "*")
-                {
+        return Border(
+            ScrollView(
+                Grid("161, 309, 59, *", "*",
                     RenderUserButton(),
 
-                    new Label("Courses")
+                    Label("Courses")
                         .FontAttributes(MauiControls.FontAttributes.Bold)
                         .FontSize(24)
                         .FontFamily("PoppinsBold")
                         .TextColor(Colors.Black)
                         .VEnd(),
 
-                    new ScrollView
-                    {
-                        new HStack(spacing: 20)
-                        {
-                            CourseModel.Courses.Select(RenderCourse)
-                        }
-                    }
+                    ScrollView(
+                        HStack(spacing: 20,
+                            [.. CourseModel.Courses.Select(RenderCourse)]
+                        )
+                    )
                     .Orientation(ScrollOrientation.Horizontal)
                     .GridRow(1),
 
-                    new Label("Recent")
+                    Label("Recent")
                         .FontAttributes(MauiControls.FontAttributes.Bold)
                         .FontSize(20)
                         .FontFamily("PoppinsBold")
@@ -112,17 +87,16 @@ class Home : Component<HomeMenuState>
                         .GridRow(2)
                         .VEnd(),
 
-                    new VStack(spacing: 20)
-                    {
-                        CourseModel.CourseSections.Select(RenderCourseSection)
-                    }
+                    VStack(spacing: 20,
+                        [.. CourseModel.CourseSections.Select(RenderCourseSection)]
+                    )
                     .Margin(0,10,15,0)
-                    .GridRow(3),
-                }
-            }
+                    .GridRow(3)
+                )
+            )
             .Orientation(ScrollOrientation.Vertical)
             .OniOS(_=>_.Margin(0, 50, 0, 0))
-        }
+        )
         .Margin(State.MarginLeft, 0, 0, 0)
         .OniOS(_=>_.Margin(State.MarginLeft, -50, 0, -50))
         .RotationY(State.RotationY)
@@ -135,13 +109,13 @@ class Home : Component<HomeMenuState>
         .Opacity(State.MainOpacity)
         .WithAnimation(easing: ExtendedEasing.InOutBack, duration: 300)
 
-        .StrokeShape(new RoundRectangle().CornerRadius(30, 0, 30, 0))
+        .StrokeCornerRadius(30, 0, 30, 0)
         .Background(Theme.Background)
         ;
     }
 
     ImageButton RenderUserButton() =>
-        new ImageButton("user_white.png")
+        ImageButton("user_white.png")
             .Aspect(Aspect.Center)
             .CornerRadius(18)
             .Shadow(new Shadow().Brush(Theme.ShadowBrush)
@@ -158,18 +132,16 @@ class Home : Component<HomeMenuState>
     VisualNode RenderCourse(CourseModel model)
     {
         VisualNode RenderAvatar(string image)
-            => new Image(image)
+            => Image(image)
                 .Aspect(Aspect.AspectFit)
                 .HeightRequest(44)
                 .WidthRequest(44)
                 .Clip(new EllipseGeometry().RadiusX(22).RadiusY(22).Center(22, 22))
                 ;
 
-        return new Border
-        {
-            new Grid("92, 44, *, 44", "*,44")
-            {
-                new Label(model.Title)
+        return Border(
+            Grid("92, 44, *, 44", "*,44",
+                Label(model.Title)
                     .FontAttributes (MauiControls.FontAttributes.Bold)
                     .FontSize(24)
                     .FontFamily("PoppinsBold")
@@ -177,17 +149,17 @@ class Home : Component<HomeMenuState>
                     .VStart()
                     ,
 
-                new Image(model.Image)
+                Image(model.Image)
                     .GridColumn(1)
                     .VStart(),
 
-                new Label(model.SubTitle)
+                Label(model.SubTitle)
                     .GridRow(1)
                     .TextColor(Colors.White.WithAlpha(0.5f))
                     .FontSize(15)
                     .Margin(0,6,0,0),
 
-                new Label(model.Caption.ToUpperInvariant())
+                Label(model.Caption.ToUpperInvariant())
                     .GridRow(2)
                     .GridColumnSpan(2)
                     .TextColor(Colors.White.WithAlpha(0.5f))
@@ -196,44 +168,39 @@ class Home : Component<HomeMenuState>
                     .FontAttributes(MauiControls.FontAttributes.Bold)
                     .VStart(),
 
-                new HStack(spacing: -8)
-                {
+                HStack(spacing: -8,
                     RenderAvatar("avatar_4.png"),
                     RenderAvatar("avatar_5.png"),
-                    RenderAvatar("avatar_6.png"),
-                }
+                    RenderAvatar("avatar_6.png")
+                )
                 .GridColumnSpan(2)
                 .GridRow(3)
-            }
-        }
+            )
+        )
         .Padding(30)
         .HeightRequest(309)
         .WidthRequest(260)
         .BackgroundColor(model.Color)
-        .StrokeShape(new RoundRectangle().CornerRadius(DeviceInfo.Current.Platform == DevicePlatform.iOS ? 20 : 30))
+        .StrokeCornerRadius(DeviceInfo.Current.Platform == DevicePlatform.iOS ? 20 : 30)
         .Shadow(new Shadow().Opacity(0.2f).Offset(5, 5).Brush(Theme.ShadowBrush));
     }
 
     VisualNode RenderCourseSection(CourseModel model)
     {
-        return new Border
-        {
-            new Grid("*,*", "*,44")
-            {
-                new Label(model.Title)
-                    //.FontAttributes (MauiControls.FontAttributes.Bold)
+        return Border(
+            Grid("*,*", "*,44",
+                Label(model.Title)
                     .FontSize(24)
                     .FontFamily("PoppinsBold")
-                    .TextColor (Colors.White)                    .FontSize(24)
-                    .FontFamily("PoppinsBold")
+                    .TextColor (Colors.White)
                     ,
 
-                new Image(model.Image)
+                Image(model.Image)
                     .GridColumn(1)
                     .GridRowSpan(2)
                     .VCenter(),
 
-                new Rectangle()
+                Rectangle()
                     .VFill()
                     .HEnd()
                     .WidthRequest(1)
@@ -242,18 +209,18 @@ class Home : Component<HomeMenuState>
                     .Fill(Theme.Background2.WithAlpha(0.5f))
                     ,
 
-                new Label(model.SubTitle)
+                Label(model.SubTitle)
                     .GridRow(1)
                     .GridColumnSpan(2)
                     .TextColor(Colors.White)
                     .FontSize(15)
                     .Margin(0,5,0,0)
-            }
-        }
+            )
+        )
         .Padding(30, 26)
         .HeightRequest(110)
         .BackgroundColor(model.Color)
-        .StrokeShape(new RoundRectangle().CornerRadius(DeviceInfo.Current.Platform == DevicePlatform.iOS ? 15 : 20))
+        .StrokeCornerRadius(DeviceInfo.Current.Platform == DevicePlatform.iOS ? 15 : 20)
         ;
     }
 }
@@ -263,22 +230,13 @@ class MenuButtonState
     public double TranslationX { get; set; } = 0;
 }
 
-class MenuButton : Component<MenuButtonState>
+partial class MenuButton : Component<MenuButtonState>
 {
-    private Action _toggleAction;
+    [Prop]
+    private Action _onToggle;
+
+    [Prop]
     private bool _isShown;
-
-    public MenuButton OnToggle(Action action)
-    {
-        _toggleAction = action;
-        return this;
-    }
-
-    public MenuButton IsSideMenuShown(bool isShown)
-    {
-        _isShown = isShown;
-        return this;
-    }
 
     protected override void OnPropsChanged()
     {
@@ -286,41 +244,35 @@ class MenuButton : Component<MenuButtonState>
         base.OnPropsChanged();
     }
 
-    public override VisualNode Render()
-    {
-        return new Grid("44", "44")
-        {
-            new ContentView
-            {
+    public override VisualNode Render() 
+        => Grid("44", "44",
+            ContentView(
                 RenderButton("menu_black.png", !_isShown)
-            }
+            )
             .Opacity(!_isShown ? 1.0 : 0.0)
             .WithAnimation(easing: Easing.CubicIn, duration: 300),
 
 
-            new ContentView
-            {
+            ContentView(
                 RenderButton("close_black.png", _isShown)
-            }
+            )
             .Opacity(_isShown ? 1.0 : 0.0)
-            .WithAnimation(easing: Easing.CubicIn, duration: 300),
-        }
+            .WithAnimation(easing: Easing.CubicIn, duration: 300)
+        )
         .VStart()
         .HStart()
         .Margin(24, 54)
         .TranslationX(State.TranslationX)
         .WithAnimation(easing: Easing.CubicIn, duration: 300);
 
-    }
-
-    ImageButton RenderButton(string image, bool show) =>
-        new ImageButton(image)
-                .Aspect(Aspect.Center)
-                .CornerRadius(18)
-                .Shadow(new Shadow().Brush(show ? Theme.ShadowBrush : Theme.ShadowDarkBrush)
-                    .Opacity(0.1f).Offset(5, 5))
-                .HeightRequest(36)
-                .WidthRequest(36)
-                .BackgroundColor(Colors.White)
-                .OnClicked(_toggleAction);
+    ImageButton RenderButton(string image, bool show) 
+        => ImageButton(image)
+            .Aspect(Aspect.Center)
+            .CornerRadius(18)
+            .Shadow(new Shadow().Brush(show ? Theme.ShadowBrush : Theme.ShadowDarkBrush)
+                .Opacity(0.1f).Offset(5, 5))
+            .HeightRequest(36)
+            .WidthRequest(36)
+            .BackgroundColor(Colors.White)
+            .OnClicked(_onToggle);
 }

@@ -20,36 +20,31 @@ class MainPageState
 
 class MainPage : Component<MainPageState>
 {
-    public override VisualNode Render()
-    {
-        return new ContentPage
-        {
-            new Grid("*", "*")
-            {
+    public override VisualNode Render() 
+        => ContentPage(
+            Grid("*", "*",
                 new Home()
-                    .IsHidden(State.IsSideMenuShown)
+                    .IsShown(!State.IsSideMenuShown)
                     .IsMovedBack(State.ShowOnboarding)
-                    .OnShowOnboarding(()=>SetState(s => s.ShowOnboarding = true)),
+                    .OnShowOnboarding(() => SetState(s => s.ShowOnboarding = true)),
 
                 new SideMenu()
                     .IsShown(State.IsSideMenuShown),
 
                 new MenuButton()
-                    .IsSideMenuShown(State.IsSideMenuShown)
-                    .OnToggle(()=>SetState(s => s.IsSideMenuShown = !s.IsSideMenuShown)),
+                    .IsShown(State.IsSideMenuShown)
+                    .OnToggle(() => SetState(s => s.IsSideMenuShown = !s.IsSideMenuShown)),
 
                 new Onboarding()
                     .Show(State.ShowOnboarding)
-                    .OnClose(()=>SetState(s => s.ShowOnboarding = false)),
+                    .OnClose(() => SetState(s => s.ShowOnboarding = false)),
 
                 new NavBar()
-                    .Shown(!State.IsSideMenuShown && !State.ShowOnboarding)
-            }
-            
-        }
+                    .Show(!State.IsSideMenuShown && !State.ShowOnboarding)
+            )
+        )
         .Set(MauiControls.NavigationPage.HasNavigationBarProperty, false)
         .BackgroundColor(Theme.Background2)
         ;
-    }
 
 }

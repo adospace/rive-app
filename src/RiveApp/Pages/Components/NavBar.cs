@@ -18,26 +18,15 @@ class NavBarState
     public double TranslationY { get; set; }
 }
 
-class NavBar : Component<NavBarState>
+partial class NavBar : Component<NavBarState>
 {
+    [Prop]
     private bool _show;
 
-    public NavBar Shown(bool show)
-    {
-        _show = show;
-        return this;
-    }
-
-    protected override void OnMounted()
+    protected override void OnMountedOrPropsChanged()
     {
         State.TranslationY = _show ? 0 : 150;
-        base.OnMounted();
-    }
-
-    protected override void OnPropsChanged()
-    {
-        State.TranslationY = _show ? 0 : 150;
-        base.OnPropsChanged();
+        base.OnMountedOrPropsChanged();
     }
 
     public override VisualNode Render()
@@ -211,41 +200,22 @@ class NavBarButtonIconState
     public float SelectionScaleX { get; set; }
 }
 
-class NavBarButtonIcon : Component<NavBarButtonIconState>
+partial class NavBarButtonIcon : Component<NavBarButtonIconState>
 {
+    [Prop]
     private string _icon;
+
+    [Prop]
     private bool _isSelected;
+
+    [Prop]
     private Action _onSelected;
 
-    public NavBarButtonIcon Icon(string icon)
-    {
-        _icon = icon;
-        return this;
-    }
-
-    public NavBarButtonIcon IsSelected(bool isSelected)
-    {
-        _isSelected = isSelected;
-        return this;
-    }
-
-    public NavBarButtonIcon OnSelected(Action action)
-    {
-        _onSelected = action;
-        return this;
-    }
-
-    protected override void OnMounted()
+    protected override void OnMountedOrPropsChanged()
     {
         State.SelectionScaleX = _isSelected ? 1.0f : 0.0f;
-        base.OnMounted();
-    }
-
-    protected override void OnPropsChanged()
-    {
-        State.SelectionScaleX = _isSelected ? 1.0f : 0.0f;
-        base.OnPropsChanged();
-    }
+        base.OnMountedOrPropsChanged();
+    }    
 
     public override VisualNode Render()
     {
