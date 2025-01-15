@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RiveApp.Resources;
 
-class Theme
+class ApplicationTheme
 {
     public static Color AccentColor { get; } = Color.FromUint(0xFF5E9EFF);
     public static Color Shadow { get; } = Color.FromUint(0xFF4A5367);

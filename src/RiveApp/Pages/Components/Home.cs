@@ -110,7 +110,7 @@ partial class Home : Component<HomeMenuState>
         .WithAnimation(easing: ExtendedEasing.InOutBack, duration: 300)
 
         .StrokeCornerRadius(30, 0, 30, 0)
-        .Background(Theme.Background)
+        .Background(ApplicationTheme.Background)
         ;
     }
 
@@ -118,7 +118,7 @@ partial class Home : Component<HomeMenuState>
         ImageButton("user_white.png")
             .Aspect(Aspect.Center)
             .CornerRadius(18)
-            .Shadow(new Shadow().Brush(Theme.ShadowBrush)
+            .Shadow(new Shadow().Brush(ApplicationTheme.ShadowBrush)
                 .Opacity(0.1f).Offset(5, 5))
             .HeightRequest(36)
             .WidthRequest(36)
@@ -182,7 +182,7 @@ partial class Home : Component<HomeMenuState>
         .WidthRequest(260)
         .BackgroundColor(model.Color)
         .StrokeCornerRadius(DeviceInfo.Current.Platform == DevicePlatform.iOS ? 20 : 30)
-        .Shadow(new Shadow().Opacity(0.2f).Offset(5, 5).Brush(Theme.ShadowBrush));
+        .Shadow(new Shadow().Opacity(0.2f).Offset(5, 5).Brush(ApplicationTheme.ShadowBrush));
     }
 
     VisualNode RenderCourseSection(CourseModel model)
@@ -206,7 +206,7 @@ partial class Home : Component<HomeMenuState>
                     .WidthRequest(1)
                     .GridRowSpan(2)
                     .Margin(15,5)
-                    .Fill(Theme.Background2.WithAlpha(0.5f))
+                    .Fill(ApplicationTheme.Background2.WithAlpha(0.5f))
                     ,
 
                 Label(model.SubTitle)
@@ -269,7 +269,7 @@ partial class MenuButton : Component<MenuButtonState>
         => ImageButton(image)
             .Aspect(Aspect.Center)
             .CornerRadius(18)
-            .Shadow(new Shadow().Brush(show ? Theme.ShadowBrush : Theme.ShadowDarkBrush)
+            .Shadow(new Shadow().Brush(show ? ApplicationTheme.ShadowBrush : ApplicationTheme.ShadowDarkBrush)
                 .Opacity(0.1f).Offset(5, 5))
             .HeightRequest(36)
             .WidthRequest(36)

@@ -91,7 +91,7 @@ partial class Onboarding : Component<OnboardingState>
         ImageButton("close.png")
                 .Aspect(Aspect.Center)
                 .CornerRadius(18)
-                .Shadow(new Shadow().Brush(Theme.ShadowBrush)
+                .Shadow(new Shadow().Brush(ApplicationTheme.ShadowBrush)
                     .Opacity(0.1f).Offset(5, 5))
                 .HeightRequest(36)
                 .WidthRequest(36)
@@ -250,7 +250,7 @@ class StartCourseButton : Component<StartCourseButtonState>
         //            new Shadow()
         //                .Offset(5,5)
         //                .Radius(15)
-        //        .Brush(Theme.ShadowDark))
+        //        .Brush(ApplicationTheme.ShadowDark))
         //        ,
 
         //    new Image("start_course_button.png")

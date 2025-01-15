@@ -4,7 +4,6 @@ using MauiReactor.Canvas;
 using MauiReactor.Shapes;
 using Microsoft.Maui.Devices;
 using Microsoft.Maui.Platform;
-using RiveApp.Controls;
 using RiveApp.Resources;
 using System;
 using System.Collections.Generic;
@@ -52,7 +51,7 @@ partial class Login : Component<LoginState>
 
     public override VisualNode Render()
     {
-        return Grid("*", "*",
+        return Grid(
             Border(
                 Grid("Auto, 78, Auto, Auto, *, Auto, Auto, 88", "*",
                     Label("Sign in")
@@ -176,7 +175,7 @@ partial class Login : Component<LoginState>
                 .Margin(8)
                 .HStart(),
 
-            new BorderlessEntry()
+            Entry()
                 .Text(value)
                 .IsEnabled(isEnabled)
                 .OnTextChanged(onSetValueAction)

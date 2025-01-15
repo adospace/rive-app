@@ -39,6 +39,13 @@
     <!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
     <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Maui" Version="9.1.1" />
+    <PackageReference Include="Microsoft.Maui.Controls" Version="8.0.100" />
+    <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.91" />
+  </ItemGroup>
+  
   <ItemGroup>
     <MauiImage Remove="Resources\Images\billing_img.png" />
     <MauiImage Remove="Resources\Images\favorites_img.png" />
@@ -48,7 +55,7 @@
     <MauiImage Remove="Resources\Images\start_course_button.png" />
     <MauiImage Remove="Resources\Images\videos_img.png" />
   </ItemGroup>
-  
+
   <ItemGroup>
     <EmbeddedResource Include="Resources\Images\billing_img.png" />
     <EmbeddedResource Include="Resources\Images\favorites_img.png" />
@@ -59,15 +66,10 @@
     <EmbeddedResource Include="Resources\Images\videos_img.png" />
   </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
-    <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
-  </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Reactor.Maui" Version="2.0.14-beta" />
-    <PackageReference Include="Reactor.Maui.Canvas" Version="2.0.14-beta" />
-    <PackageReference Include="Reactor.Maui.ScaffoldGenerator" Version="2.0.14-beta" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
-    <PackageReference Include="SkiaSharp.Extended.UI.Maui" Version="2.0.0-preview.61" />
+    <PackageReference Include="Reactor.Maui" Version="2.0.59" />
+    <PackageReference Include="Reactor.Maui.Canvas" Version="2.0.59" />
+    <PackageReference Include="SkiaSharp.Extended.UI.Maui" Version="2.0.0" />
   </ItemGroup>
 </Project>

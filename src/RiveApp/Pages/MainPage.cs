@@ -1,5 +1,6 @@
 ﻿using MauiReactor;
 using MauiReactor.Shapes;
+using Microsoft.Maui.ApplicationModel;
 using RiveApp.Models;
 using RiveApp.Pages.Components;
 using RiveApp.Resources;
@@ -22,6 +23,10 @@ class MainPage : Component<MainPageState>
 {
     public override VisualNode Render() 
         => ContentPage(
+            new StatusBarBehavior()
+                .StatusBarColor(ApplicationTheme.Background2)
+                .StatusBarStyle(CommunityToolkit.Maui.Core.StatusBarStyle.LightContent),                
+
             Grid("*", "*",
                 new Home()
                     .IsShown(!State.IsSideMenuShown)
@@ -44,7 +49,7 @@ class MainPage : Component<MainPageState>
             )
         )
         .Set(MauiControls.NavigationPage.HasNavigationBarProperty, false)
-        .BackgroundColor(Theme.Background2)
+        .BackgroundColor(ApplicationTheme.Background2)
         ;
 
 }

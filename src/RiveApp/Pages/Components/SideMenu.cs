@@ -35,7 +35,7 @@ partial class SideMenu : Component<SideMenuState>
     public override VisualNode Render()
     {
         return Grid("39, 300, *, 120", "250",
-            SideMenu.RenderHeader(),
+            RenderHeader(),
 
             RenderBrowse(),
 
@@ -48,7 +48,7 @@ partial class SideMenu : Component<SideMenuState>
         .TranslationX(State.TranslationX)
         .Opacity(State.Opacity)
         .WithAnimation(easing: Easing.CubicIn, duration: 300)
-        .BackgroundColor(Theme.Background2)
+        .BackgroundColor(ApplicationTheme.Background2)
         .HStart();
     }
 
@@ -168,7 +168,7 @@ partial class SideMenuItem : Component<SideMenuItemState>
                 new Align()
                 {
                     new Box()
-                        .BackgroundColor(Theme.Background.WithAlpha(0.1f))
+                        .BackgroundColor(ApplicationTheme.Background.WithAlpha(0.1f))
                 }
                 .Margin(5,0)
                 .Height(1)
